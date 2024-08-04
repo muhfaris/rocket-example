@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: Book Lending API
+  version: 1.0.0
+paths:
+  /books:
+    get:
+      tags:
+        - Books
+      summary: Get list of books
+      operationId: GetBooks::BookService
+      x-route-group: bookGroup::/api
+      responses:
+        "200":
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+  /books/{bookId}:
+    get:
+      tags:
+        - Books
+      summary: Get a book by ID
+      operationId: GetBookById::BookService
+      x-route-group: bookGroup::/api
+      x-parameters-name: GetBookByIdParameters
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /lend:
+    post:
+      tags:
+        - Lending
+      summary: Lend a book
+      operationId: LendBook::BookService
+      x-route-group: lendingGroup::/api/l
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              x-properties-name: LendBookProperties
+              properties:
+                userId:
+                  type: string
+                bookId:
+                  type: string
+      responses:
+        "200":
+          description: Book lent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book lent successfully
+  /return:
+    post:
+      tags:
+        - Lending
+      summary: Return a book
+      operationId: ReturnBook::BookService
+      x-route-group: lendingGroup::/api/l
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              x-properties-name: ReturnBookProperties
+              properties:
+                userId:
+                  type: string
+                bookId:
+                  type: string
+      responses:
+        "200":
+          description: Book returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book returned successfully
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        publishedDate:
+          type: string
+          format: date
