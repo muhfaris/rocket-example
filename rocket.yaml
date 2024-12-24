@@ -1,0 +1,8 @@
+openapi: rocket-example1.yaml
+app:
+    package: github.com/muhfaris/rocket-hexagonal
+    project: rocket-hexagonal
+    arch: hexagonal
+    docket: false
+    database: mysql
+    cache: redis
